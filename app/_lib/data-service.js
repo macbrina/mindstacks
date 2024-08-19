@@ -20,6 +20,7 @@ import {
   getQuantityBasedOnPlan,
   isSubscriptionActive,
 } from "@/app/_util/utilities";
+import { isSameDay, subDays } from "date-fns";
 
 export const checkAndAddUserToFirestore = async (
   userId,
@@ -290,6 +291,18 @@ export const getUserDashboardData = async (user, updateCollectionsList) => {
 export const addUserActivity = async (userId, activityDate = new Date()) => {
   try {
     const streakCollection = collection(db, "userStreaks");
+
+    const dateQuery = query(
+      streakCollection,
+      where("userId", "==", userId),
+      where("date", "==", activityDate)
+    );
+
+    const dateQuerySnapshot = await getDocs(dateQuery);
+
+    if (!dateQuerySnapshot.empty) {
+      return;
+    }
 
     await addDoc(streakCollection, {
       userId,

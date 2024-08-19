@@ -68,21 +68,20 @@ function GenerateForm({
       }
     }
 
-    if (
-      (state.fbUser && state.fbUser.subscription.plan === "Basic") ||
-      !isPremiumOrCanceled
-    ) {
-      if (state.formData.quantity > 3) {
-        toast.error("Basic plan allows a maximum of 3 flashcards.");
-        return;
-      }
-      if (state.formData.language !== "english") {
-        toast.error("Basic plan allows only English language.");
-        return;
-      }
-      if (state.formData.difficulty !== "easy") {
-        toast.error("Basic plan allows only easy difficulty.");
-        return;
+    if (state.fbUser && state.fbUser.subscription.plan === "Basic") {
+      if (!isPremiumOrCanceled) {
+        if (state.formData.quantity > 3) {
+          toast.error("Basic plan allows a maximum of 3 flashcards.");
+          return;
+        }
+        if (state.formData.language !== "english") {
+          toast.error("Basic plan allows only English language.");
+          return;
+        }
+        if (state.formData.difficulty !== "easy") {
+          toast.error("Basic plan allows only easy difficulty.");
+          return;
+        }
       }
     }
 

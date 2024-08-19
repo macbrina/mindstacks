@@ -2,7 +2,10 @@
 
 import FlipCardStack from "@/app/_components/Backend/Flashcards/FlipCardStack";
 import { useFlash } from "@/app/_context/FlashContext";
-import { getFlashcardsInCollection } from "@/app/_lib/data-service";
+import {
+  addUserActivity,
+  getFlashcardsInCollection,
+} from "@/app/_lib/data-service";
 import { useUser } from "@clerk/nextjs";
 import { ArrowBack } from "@mui/icons-material";
 import {
@@ -21,9 +24,25 @@ function Page({ params }) {
   const { user, isLoaded } = useUser();
   const { updateCollectionList } = useFlash();
   const { slug } = params;
-  const collectionId = slug.split("-")[1];
+  const match = slug.match(/.*-(.*)$/);
+  const collectionId = match ? match[1] : null;
   const [flashcards, setFlashcards] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function addActvity() {
+      try {
+        await addUserActivity(user.id);
+      } catch (error) {
+        console.log(error);
+        toast.error("Failed to add activity:", error.message);
+      }
+    }
+
+    if (user && isLoaded) {
+      addActvity();
+    }
+  }, [user, isLoaded]);
 
   useEffect(() => {
     if (!isLoaded || !user || !collectionId) {

@@ -17,7 +17,7 @@ import { Container, Stack, styled } from "@mui/system";
 import { useRouter } from "next/navigation";
 
 const basicFeatures = [
-  "Limited Collections",
+  "5 Collections",
   "3 Flashcards Generation",
   "Dashboard Analytics",
   "Track Progress",
