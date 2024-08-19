@@ -117,14 +117,21 @@ const Register = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          p: 4,
           backgroundColor:
             theme.palette.mode === "light"
               ? "rgba(249,250,251, 0.4)"
               : "rgba(25, 32, 48, 1)",
         })}
       >
-        <Box sx={{ maxWidth: 400, width: "100%" }}>
+        <Box
+          sx={{
+            maxWidth: 400,
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
           {!isLoaded ? (
             <Skeleton
               variant="rectangular"
