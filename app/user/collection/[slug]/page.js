@@ -169,42 +169,37 @@ function Page({ params }) {
             </Grid>
           </Grid>
         </Grid>
-        <Grid container spacing={2} sx={{ mt: 4 }}>
-          <Grid item xs={4}>
-            <Paper elevation={3} sx={{ p: 2 }}>
-              <Typography variant="h5">Total Correct</Typography>
-              <Typography variant="h6">
-                {flashcards.reduce(
-                  (total, card) => total + card.correctCount,
-                  0
-                )}
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={4}>
-            <Paper elevation={3} sx={{ p: 2 }}>
-              <Typography variant="h5">Total Incorrect</Typography>
-              <Typography variant="h6">
-                {flashcards.reduce(
-                  (total, card) => total + card.incorrectCount,
-                  0
-                )}
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid item xs={4}>
-            <Paper elevation={3} sx={{ p: 2 }}>
-              <Typography variant="h5">Average Score</Typography>
-              {flashcards.length > 0
-                ? (
-                    flashcards.reduce(
-                      (total, card) => total + card.correctCount,
-                      0
-                    ) / flashcards.length
-                  ).toFixed(2)
-                : 0}
-            </Paper>
-          </Grid>
+        <Grid item xs={12} md={4}>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Typography variant="h5">Total Correct</Typography>
+            <Typography variant="h6">
+              {flashcards.reduce((total, card) => total + card.correctCount, 0)}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Typography variant="h5">Total Incorrect</Typography>
+            <Typography variant="h6">
+              {flashcards.reduce(
+                (total, card) => total + card.incorrectCount,
+                0
+              )}
+            </Typography>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Paper elevation={3} sx={{ p: 2 }}>
+            <Typography variant="h5">Average Score</Typography>
+            {flashcards.length > 0
+              ? (
+                  flashcards.reduce(
+                    (total, card) => total + card.correctCount,
+                    0
+                  ) / flashcards.length
+                ).toFixed(2)
+              : 0}
+          </Paper>
         </Grid>
       </Grid>
       <FlipCardStack

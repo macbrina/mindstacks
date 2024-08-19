@@ -19,6 +19,7 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
+import { Box } from "@mui/system";
 import { differenceInDays } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -121,7 +122,13 @@ function Header({ toggleDrawer, open }) {
             ) : (
               <>
                 {state.fbUser?.subscription?.plan === "Basic" && (
-                  <>
+                  <Box
+                    sx={{
+                      display: { xs: "none", md: "flex" },
+                      gap: 1,
+                      alignItems: "center",
+                    }}
+                  >
                     <Typography variant="body1">Free Trial</Typography>
                     <Button
                       onClick={handleSubmit}
@@ -149,7 +156,7 @@ function Header({ toggleDrawer, open }) {
                         "Upgrade"
                       )}
                     </Button>
-                  </>
+                  </Box>
                 )}
                 {state.fbUser?.subscription?.plan === "Premium" && (
                   <>

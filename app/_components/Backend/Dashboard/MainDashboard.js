@@ -56,19 +56,19 @@ const MainDashboard = ({
             Welcome back, {user.username}!
           </Typography>
           <Grid container spacing={2}>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Paper elevation={3} sx={{ p: 2 }}>
                 <Typography variant="h5">Total Flashcard Sets</Typography>
                 <Typography variant="h6">{collectionSets}</Typography>
               </Paper>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Paper elevation={3} sx={{ p: 2 }}>
                 <Typography variant="h5">Total Flashcards</Typography>
                 <Typography variant="h6">{flashcardSets}</Typography>
               </Paper>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Paper elevation={3} sx={{ p: 2 }}>
                 <Typography variant="h5">Current Streak</Typography>
                 <Typography variant="h6">{streak} Days</Typography>
@@ -107,19 +107,19 @@ const MainDashboard = ({
         </Typography>
         <Paper elevation={3} sx={{ p: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Paper elevation={3} sx={{ p: 2 }}>
                 <Typography variant="h5">Total Correct</Typography>
                 <Typography variant="h6">{analytics.totalCorrect}</Typography>
               </Paper>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Paper elevation={3} sx={{ p: 2 }}>
                 <Typography variant="h5">Total Incorrect</Typography>
                 <Typography variant="h6">{analytics.totalIncorrect}</Typography>
               </Paper>
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={12} md={4}>
               <Paper elevation={3} sx={{ p: 2 }}>
                 <Typography variant="h5">Average Score</Typography>
                 <Typography variant="h6">
