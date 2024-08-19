@@ -10,7 +10,7 @@ import Analytics from "@/app/_components/Analytics";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  metadataBase: new URL("https://mindstacks.com"),
+  metadataBase: new URL("https://mindstacks.vercel.app"),
   title: {
     template: "%s - MindStacks",
     default: "MindStacks: Premium Flashcard Creation Tool",
@@ -28,7 +28,7 @@ export const metadata = {
       "MindStacks offers a powerful platform for creating premium flashcards with ease. Use our AI-powered tool to generate engaging study materials, tailored to your learning needs. Perfect for students, educators, and anyone looking to enhance their study sessions.",
     images: [
       {
-        url: "https://mindstacks.com/images/og-image.jpg",
+        url: "https://mindstacks.vercel.app/images/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "MindStacks Flashcard Creation",
@@ -44,7 +44,7 @@ export const metadata = {
     title: "MindStacks: Premium Flashcard Creation Tool",
     description:
       "MindStacks offers a powerful platform for creating premium flashcards with ease. Use our AI-powered tool to generate engaging study materials, tailored to your learning needs. Perfect for students, educators, and anyone looking to enhance their study sessions.",
-    images: ["https://mindstacks.com/images/og-image.jpg"],
+    images: ["https://mindstacks.vercel.app/images/og-image.jpg"],
   },
 };
 
