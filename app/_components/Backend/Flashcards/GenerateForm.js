@@ -69,8 +69,7 @@ function GenerateForm({
     }
 
     if (
-      state.fbUser &&
-      state.fbUser.subscription.plan === "Basic" &&
+      (state.fbUser && state.fbUser.subscription.plan === "Basic") ||
       !isPremiumOrCanceled
     ) {
       if (state.formData.quantity > 3) {

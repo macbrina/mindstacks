@@ -20,7 +20,15 @@ function HeroSection() {
       <Container maxWidth="sm">
         <Typography
           variant="h2"
-          sx={{ fontWeight: 700, color: "#fff" }}
+          sx={{
+            fontWeight: 700,
+            color: "#fff",
+            fontSize: {
+              xs: 24,
+              md: 32,
+              lg: 40,
+            },
+          }}
           data-aos="fade-up"
         >
           Supercharge Your Learning with
@@ -29,6 +37,11 @@ function HeroSection() {
           variant="h2"
           sx={{
             fontWeight: 700,
+            fontSize: {
+              xs: 24,
+              md: 32,
+              lg: 40,
+            },
             color: "#fff",
             background: "linear-gradient(to bottom, #42A5F5, #1E88E5)",
             WebkitBackgroundClip: "text",

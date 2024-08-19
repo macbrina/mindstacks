@@ -1,5 +1,16 @@
-import { Divider, Grid, Link, Typography } from "@mui/material";
+"use client";
+
+import { subscribeEmail } from "@/app/_lib/action";
+import {
+  Button,
+  Divider,
+  Grid,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { Container, styled } from "@mui/system";
+import { useRef, useState } from "react";
 
 const Footer = styled("footer")(({ theme }) => ({
   backgroundColor: theme.palette.grey[900],
@@ -17,24 +28,116 @@ const FooterLink = styled(Link)(({ theme }) => ({
   },
 }));
 
+const SubscribeSection = styled("div")(({ theme }) => ({
+  marginTop: theme.spacing(4),
+  padding: theme.spacing(2),
+  borderRadius: theme.shape.borderRadius,
+}));
+
 function FooterSection() {
+  const [errors, setErrors] = useState({});
+  const [pending, setPending] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const formRef = useRef(null);
+
+  const handleSubscribe = async (event) => {
+    event.preventDefault();
+    setPending(true);
+    setSuccessMessage("");
+    setErrorMessage("");
+
+    const formData = new FormData(event.target);
+
+    try {
+      const response = await subscribeEmail(formData);
+
+      if (response.errors) {
+        setErrors(response.errors);
+      } else if (response.success) {
+        setSuccessMessage("Thank you for subscribing!");
+        formRef.current.reset();
+      } else {
+        setErrorMessage(response.error || "An error occurred");
+      }
+    } catch (error) {
+      setErrorMessage(response.error || "An error occurred");
+    } finally {
+      setPending(false);
+    }
+  };
+
   return (
     <Footer>
       <Container maxWidth="lg">
         <Grid container spacing={4} justifyContent="center">
           <Grid item>
-            <FooterLink href="/privacy">Privacy Policy</FooterLink>
+            <FooterLink href="#">Privacy Policy</FooterLink>
           </Grid>
           <Grid item>
-            <FooterLink href="/terms">Terms of Service</FooterLink>
+            <FooterLink href="#">Terms of Service</FooterLink>
           </Grid>
           <Grid item>
-            <FooterLink href="/contact">Contact Us</FooterLink>
+            <FooterLink href="#">Contact Us</FooterLink>
           </Grid>
         </Grid>
+        <SubscribeSection>
+          <Typography variant="h6" gutterBottom>
+            Stay Updated with MindStacks!
+          </Typography>
+          <Typography variant="body2" paragraph>
+            Subscribe to our newsletter to get the latest updates, tips, and
+            exclusive offers. Don’t miss out!
+          </Typography>
+          {errorMessage && (
+            <Typography variant="h6" color="success.main">
+              {errorMessage}
+            </Typography>
+          )}
+          {successMessage ? (
+            <Typography variant="h6" color="success.main">
+              {successMessage}
+            </Typography>
+          ) : (
+            <form ref={formRef} onSubmit={handleSubscribe}>
+              <Grid
+                container
+                spacing={2}
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Grid item xs={12} sm={6} md={4}>
+                  <TextField
+                    fullWidth
+                    label="Email Address"
+                    variant="outlined"
+                    size="small"
+                    id="email"
+                    name="email"
+                    required
+                  />
+                  {errors.email && (
+                    <p className="text-red-500 text-sm">{errors.email}</p>
+                  )}
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
+                  <Button
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    disabled={pending}
+                    type="submit"
+                  >
+                    Subscribe
+                  </Button>
+                </Grid>
+              </Grid>
+            </form>
+          )}
+        </SubscribeSection>
         <Divider sx={{ my: 4, borderColor: "rgba(255, 255, 255, 0.12)" }} />
         <Typography variant="body2" color="textSecondary" align="center">
-          © 2024 MindStacks. All rights reserved.
+          © {new Date().getFullYear()} MindStacks. All rights reserved.
         </Typography>
       </Container>
     </Footer>

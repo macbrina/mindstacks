@@ -21,6 +21,7 @@ const FeatureItem = styled(Box)(({ theme, reverse }) => ({
   flexDirection: reverse ? "row-reverse" : "row",
   alignItems: "center",
   marginBottom: theme.spacing(8),
+  marginTop: theme.spacing(8),
 }));
 
 const FeatureContent = styled(Box)(({ theme }) => ({
@@ -57,7 +58,19 @@ const FeaturesSection = () => {
   return (
     <FeatureSection>
       <Container>
-        <Typography variant="h4" align="center" gutterBottom data-aos="fade-up">
+        <Typography
+          variant="h4"
+          align="center"
+          gutterBottom
+          data-aos="fade-up"
+          sx={{
+            fontSize: {
+              xs: 24,
+              md: 32,
+              lg: 40,
+            },
+          }}
+        >
           Features Built for Success
         </Typography>
 

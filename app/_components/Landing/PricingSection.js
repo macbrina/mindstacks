@@ -17,7 +17,7 @@ import { useRouter } from "next/navigation";
 import ListItems from "./Pricing/ListItems";
 
 const basicFeatures = [
-  "Limited Collections",
+  "5 Collections",
   "3 Flashcards Generation",
   "Dashboard Analytics",
   "Track Progress",
@@ -64,7 +64,19 @@ function PricingSection() {
       })}
     >
       <Container>
-        <Typography variant="h4" align="center" gutterBottom data-aos="fade-up">
+        <Typography
+          variant="h4"
+          align="center"
+          gutterBottom
+          data-aos="fade-up"
+          sx={{
+            fontSize: {
+              xs: 24,
+              md: 32,
+              lg: 40,
+            },
+          }}
+        >
           Choose Your Plan
         </Typography>
         <Grid container spacing={4} justifyContent="center" sx={{ mt: 4 }}>
