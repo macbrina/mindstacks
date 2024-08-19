@@ -99,7 +99,7 @@ const Dashboard = () => {
       }
     }
     addUserToDb();
-  }, [user, isLoaded]);
+  }, [user, isLoaded, dispatch]);
 
   useEffect(() => {
     const calculateAnalytics = () => {

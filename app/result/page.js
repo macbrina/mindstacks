@@ -66,7 +66,7 @@ const ResultPage = () => {
             Loading...
           </Typography>
           <Typography variant="h6" component="h1" fontWeight="bold">
-            Don't refresh the page
+            Don&apos;t refresh the page
           </Typography>
         </Box>
       </ClientOnly>

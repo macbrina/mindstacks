@@ -76,7 +76,7 @@ function HeaderSection() {
       }
     }
     fetchUser();
-  }, [user, isLoaded, dispatch, state.newUserCreating]);
+  }, [user, isLoaded, dispatch, state.newUserCreating, state.fbUser]);
 
   return (
     <AppBar position="static" color="transparent" elevation={0}>

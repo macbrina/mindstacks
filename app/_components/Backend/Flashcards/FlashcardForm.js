@@ -40,7 +40,7 @@ function FlashcardForm() {
       }
     }
     fetchUser();
-  }, [user, isLoaded, dispatch, state.newUserCreating]);
+  }, [user, isLoaded, dispatch, state.newUserCreating, state.fbUser]);
 
   return (
     <>

@@ -66,7 +66,7 @@ function Header({ toggleDrawer, open }) {
       }
     }
     fetchUser();
-  }, [user, isLoaded, dispatch]);
+  }, [user, isLoaded, dispatch, state.fbUser]);
 
   return (
     <Toolbar
