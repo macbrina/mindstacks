@@ -159,7 +159,7 @@ const PrivacyPage = () => {
         <Typography variant="body1" paragraph>
           We may update this Privacy Policy from time to time. We will notify
           you of any changes by posting the new Privacy Policy on this page and
-          updating the "Last updated" date.
+          updating the &quot;Last updated&quot; date.
         </Typography>
 
         <SectionTitle variant="h5">8. Contact Us</SectionTitle>

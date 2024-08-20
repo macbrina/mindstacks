@@ -41,10 +41,10 @@ const TermsOfServicePage = () => {
 
         <SectionTitle variant="h5">1. Introduction</SectionTitle>
         <Typography variant="body1" paragraph>
-          Welcome to MindStacks. These Terms of Service ("Terms") govern your
-          use of our website and services. By accessing or using our services,
-          you agree to be bound by these Terms. If you do not agree, please do
-          not use our services.
+          Welcome to MindStacks. These Terms of Service (&quot;Terms&quot;)
+          govern your use of our website and services. By accessing or using our
+          services, you agree to be bound by these Terms. If you do not agree,
+          please do not use our services.
         </Typography>
 
         <SectionTitle variant="h5">2. User Responsibilities</SectionTitle>
@@ -109,8 +109,8 @@ const TermsOfServicePage = () => {
         <SectionTitle variant="h5">7. Changes to These Terms</SectionTitle>
         <Typography variant="body1" paragraph>
           We may update these Terms from time to time. We will notify you of any
-          changes by posting the new Terms on this page and updating the "Last
-          updated" date.
+          changes by posting the new Terms on this page and updating the
+          &quot;Last updated&quot; date.
         </Typography>
 
         <SectionTitle variant="h5">8. Contact Us</SectionTitle>

@@ -1,7 +1,7 @@
 "use client";
 
 import logo from "@/public/images/logo.png";
-import { SignUp, useSignUp } from "@clerk/nextjs";
+import { SignUp, useAuth, useSignUp } from "@clerk/nextjs";
 import {
   Box,
   Grid,
@@ -10,12 +10,15 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
+import { signInWithCustomToken } from "firebase/auth";
 import Image from "next/image";
+import { useEffect } from "react";
 
 const Register = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const { isLoaded } = useSignUp();
+  const { getToken, userId } = useAuth();
 
   const clerkTheme = {
     variables: {
@@ -39,6 +42,24 @@ const Register = () => {
       },
     },
   };
+
+  useEffect(() => {
+    const signInToFirebase = async () => {
+      if (userId) {
+        const token = await getToken({ template: "integration_firebase" });
+        if (token) {
+          try {
+            await signInWithCustomToken(auth, token);
+            console.log("Signed in to Firebase");
+          } catch (error) {
+            console.error("Error signing in to Firebase:", error);
+          }
+        }
+      }
+    };
+
+    signInToFirebase();
+  }, [userId, getToken]);
 
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
