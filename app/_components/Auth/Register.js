@@ -1,7 +1,7 @@
 "use client";
 
 import logo from "@/public/images/logo.png";
-import { SignUp, useAuth, useSignUp } from "@clerk/nextjs";
+import { SignUp, useSignUp } from "@clerk/nextjs";
 import {
   Box,
   Grid,

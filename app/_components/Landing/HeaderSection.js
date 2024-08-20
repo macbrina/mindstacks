@@ -3,14 +3,10 @@
 import AccountSubscription from "@/app/_components/Backend/Subscription/AccountSubscription";
 import ToggleColorMode from "@/app/_components/ToggleColorMode";
 import { useFlash } from "@/app/_context/FlashContext";
-import { getUserData } from "@/app/_lib/data-service";
-import { isEmptyObject } from "@/app/_util/utilities";
 import { SignedIn, SignedOut, UserButton, useUser } from "@clerk/nextjs";
 import { AppBar, Avatar, Button, Toolbar, Typography } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { toast } from "react-toastify";
 
 const SubscriptionIcon = () => {
   return (
@@ -63,20 +59,6 @@ function HeaderSection() {
   const handleSubscriptionClick = () => {
     router.push("/user/dashboard");
   };
-
-  useEffect(() => {
-    async function fetchUser() {
-      if (user && isLoaded && isEmptyObject(state.fbUser)) {
-        try {
-          const newUser = await getUserData(user);
-          dispatch({ type: "SET_FBUSER", payload: newUser });
-        } catch (error) {
-          toast.error(error.message);
-        }
-      }
-    }
-    fetchUser();
-  }, [user, isLoaded, dispatch, state.newUserCreating, state.fbUser]);
 
   return (
     <AppBar position="static" color="transparent" elevation={0}>

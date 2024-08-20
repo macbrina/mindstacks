@@ -1,10 +1,8 @@
 "use client";
 
-import AccountSubscription from "@/app/_components/Backend/Subscription/AccountSubscription";
 import ToggleColorMode from "@/app/_components/ToggleColorMode";
 import { useFlash } from "@/app/_context/FlashContext";
 import useSubscription from "@/app/_hooks/useSubscription";
-import { getUserData } from "@/app/_lib/data-service";
 import { isEmptyObject } from "@/app/_util/utilities";
 import { SignedIn, UserButton, useUser } from "@clerk/nextjs";
 import { Bolt } from "@mui/icons-material";
@@ -23,8 +21,6 @@ import { Box } from "@mui/system";
 import { differenceInDays } from "date-fns";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
 
 const SubscriptionIcon = () => {
   return (
@@ -54,20 +50,6 @@ function Header({ toggleDrawer, open }) {
       router.push("/sign-in");
     }
   };
-
-  useEffect(() => {
-    async function fetchUser() {
-      if (user && isLoaded && isEmptyObject(state.fbUser)) {
-        try {
-          const newUser = await getUserData(user);
-          dispatch({ type: "SET_FBUSER", payload: newUser });
-        } catch (error) {
-          toast.error(error.message);
-        }
-      }
-    }
-    fetchUser();
-  }, [user, isLoaded, dispatch, state.fbUser]);
 
   return (
     <Toolbar

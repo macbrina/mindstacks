@@ -1,14 +1,12 @@
 "use client";
 
+import GenerateForm from "@/app/_components/Backend/Flashcards/GenerateForm";
 import { useFlash } from "@/app/_context/FlashContext";
-import { getUserData } from "@/app/_lib/data-service";
-import { isEmptyObject, validateFormEntries } from "@/app/_util/utilities";
+import { validateFormEntries } from "@/app/_util/utilities";
 import { useUser } from "@clerk/nextjs";
 import { Add } from "@mui/icons-material";
 import { Button, Grid, Skeleton } from "@mui/material";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import GenerateForm from "@/app/_components/Backend/Flashcards/GenerateForm";
+import { useState } from "react";
 
 function FlashcardForm() {
   const [openFlashModal, setOpenFlashModal] = useState(false);
@@ -26,21 +24,6 @@ function FlashcardForm() {
     setErrors(errors);
     return Object.keys(errors).length === 0;
   };
-
-  useEffect(() => {
-    async function fetchUser() {
-      if (user && isLoaded && isEmptyObject(state.fbUser)) {
-        try {
-          const newUser = await getUserData(user);
-          dispatch({ type: "SET_FBUSER", payload: newUser });
-        } catch (error) {
-          "error fetchUser: ", error;
-          toast.error(error.message);
-        }
-      }
-    }
-    fetchUser();
-  }, [user, isLoaded, dispatch, state.newUserCreating, state.fbUser]);
 
   return (
     <>

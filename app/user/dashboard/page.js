@@ -28,7 +28,7 @@ const Dashboard = () => {
   const [streak, setStreak] = useState(0);
   const [dataLoading, setDataLoading] = useState(true);
   const [recentSets, setRecentSets] = useState([]);
-  const { getToken, userId } = useAuth();
+
   const [analytics, setAnalytics] = useState({
     totalCorrect: 0,
     totalIncorrect: 0,
@@ -67,44 +67,6 @@ const Dashboard = () => {
   }, [user, updateCollectionsList, recentSets.length]);
 
   useEffect(() => {
-    async function addUserToDb() {
-      if (user && isLoaded) {
-        const userId = user.id;
-        const userData = {
-          userId: user.id,
-          email: user.primaryEmailAddress.emailAddress,
-          username: user.username,
-          fullName: user.fullName,
-          role: "user",
-          subscriptionId: generateUniqueId(),
-          createdAt: new Date(),
-        };
-
-        const subscriptionData = {
-          userId: user.id,
-          status: "active",
-          plan: "Basic",
-          endsAt: null,
-          id: userData.subscriptionId,
-          price: "0.00",
-          stripeCustomerId: "",
-          cardLimit: getCardLimitBasedOnPlan("Basic"),
-          quantity: getQuantityBasedOnPlan("Basic"),
-        };
-
-        try {
-          await checkAndAddUserToFirestore(userId, userData, subscriptionData);
-        } catch (error) {
-          toast.error(error.message);
-        } finally {
-          dispatch({ type: "SET_NEWUSER_LOADING", payload: false });
-        }
-      }
-    }
-    addUserToDb();
-  }, [user, isLoaded, dispatch]);
-
-  useEffect(() => {
     const calculateAnalytics = () => {
       let totalCorrect = 0;
       let totalIncorrect = 0;
@@ -133,24 +95,6 @@ const Dashboard = () => {
       calculateAnalytics();
     }
   }, [state.collectionList, recentSets.length]);
-
-  useEffect(() => {
-    const signInToFirebase = async () => {
-      if (userId) {
-        const token = await getToken({ template: "integration_firebase" });
-        if (token) {
-          try {
-            await signInWithCustomToken(auth, token);
-          } catch (error) {
-            toast.error(error.message);
-            console.error("Error signing in to Firebase:", error);
-          }
-        }
-      }
-    };
-
-    signInToFirebase();
-  }, [userId, getToken]);
 
   if (!isLoaded || !isSignedIn || dataLoading) {
     return <DashboardSkeleton />;

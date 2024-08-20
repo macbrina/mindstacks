@@ -41,10 +41,10 @@ export function flashReducer(state, action) {
         ...state,
         generatingFlashcards: action.payload,
       };
-    case "SET_NEWUSER_LOADING":
+    case "SET_USEREXIST_LOADING":
       return {
         ...state,
-        newUserCreating: action.payload,
+        userExiSt: action.payload,
       };
     case "SET_COLLECTION_TOGGLE":
       return {

@@ -52,7 +52,6 @@ export async function addProSubscription(userId, subscriptionData) {
     const premiumSnapshot = await getDocs(premiumQuery);
 
     if (!premiumSnapshot.empty) {
-      `Active Premium subscription already exists for userId ${userId}. No new subscription created.`;
       throw new Error(
         "You already have an active Premium subscription. Cancel it first."
       );

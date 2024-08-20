@@ -9,6 +9,20 @@ import {
 } from "react";
 import { flashReducer } from "@/app/_context/reducer";
 import { usePathname } from "next/navigation";
+import { signInWithCustomToken } from "firebase/auth";
+import { auth } from "@/app/_firebase/config";
+import {
+  generateUniqueId,
+  getCardLimitBasedOnPlan,
+  getQuantityBasedOnPlan,
+  isEmptyObject,
+} from "@/app/_util/utilities";
+import {
+  checkAndAddUserToFirestore,
+  getUserData,
+} from "@/app/_lib/data-service";
+import { useAuth, useUser } from "@clerk/nextjs";
+import { toast } from "react-toastify";
 
 const FlashContext = createContext();
 
@@ -25,7 +39,7 @@ const initialState = {
   generatingFlashcards: false,
   flashCardLoading: false,
   collectionsLoading: false,
-  newUserCreating: true,
+  userExiSt: false,
   subscriptionLoading: false,
   flashcardsList: [],
   subscriptionList: [],
@@ -42,6 +56,8 @@ const initialState = {
 function FlashProvider({ children }) {
   const [state, dispatch] = useReducer(flashReducer, initialState);
   const pathname = usePathname();
+  const { getToken, userId } = useAuth();
+  const { user, isLoaded } = useUser();
 
   const toggleThemeMode = () => {
     const newThemeMode = state.themeMode === "dark" ? "light" : "dark";
@@ -102,6 +118,75 @@ function FlashProvider({ children }) {
       document.body.classList.remove("dark", "light");
     };
   }, [state.themeMode]);
+
+  useEffect(() => {
+    const signInToFirebase = async () => {
+      if (userId) {
+        const token = await getToken({ template: "integration_firebase" });
+        if (token) {
+          try {
+            await signInWithCustomToken(auth, token);
+          } catch (error) {
+            toast.error(error.message);
+            console.error("Error signing in to Firebase:", error);
+          }
+        }
+      }
+    };
+
+    signInToFirebase();
+  }, [userId, getToken]);
+
+  useEffect(() => {
+    async function addUserToDb() {
+      if (user && isLoaded) {
+        const userId = user.id;
+        const userData = {
+          userId: user.id,
+          email: user.primaryEmailAddress.emailAddress,
+          username: user.username,
+          fullName: user.fullName,
+          role: "user",
+          subscriptionId: generateUniqueId(),
+          createdAt: new Date(),
+        };
+
+        const subscriptionData = {
+          userId: user.id,
+          status: "active",
+          plan: "Basic",
+          endsAt: null,
+          id: userData.subscriptionId,
+          price: "0.00",
+          stripeCustomerId: "",
+          cardLimit: getCardLimitBasedOnPlan("Basic"),
+          quantity: getQuantityBasedOnPlan("Basic"),
+        };
+
+        try {
+          await checkAndAddUserToFirestore(userId, userData, subscriptionData);
+          dispatch({ type: "SET_USEREXIST_LOADING", payload: true });
+        } catch (error) {
+          toast.error(error.message);
+        }
+      }
+    }
+    addUserToDb();
+  }, [user, isLoaded, dispatch]);
+
+  useEffect(() => {
+    async function fetchUser() {
+      if (user && isLoaded && isEmptyObject(state.fbUser) && state.userExiSt) {
+        try {
+          const newUser = await getUserData(user);
+          dispatch({ type: "SET_FBUSER", payload: newUser });
+        } catch (error) {
+          toast.error(error.message);
+        }
+      }
+    }
+    fetchUser();
+  }, [user, isLoaded, dispatch, state.fbUser, state.userExiSt]);
 
   return (
     <FlashContext.Provider
