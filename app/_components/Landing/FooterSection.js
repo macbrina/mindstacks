@@ -72,20 +72,20 @@ function FooterSection() {
       <Container maxWidth="lg">
         <Grid container spacing={4} justifyContent="center">
           <Grid item>
-            <FooterLink href="#">Privacy Policy</FooterLink>
+            <FooterLink href="/privacy">Privacy Policy</FooterLink>
           </Grid>
           <Grid item>
-            <FooterLink href="#">Terms of Service</FooterLink>
+            <FooterLink href="/terms">Terms of Service</FooterLink>
           </Grid>
-          <Grid item>
+          {/* <Grid item>
             <FooterLink href="#">Contact Us</FooterLink>
-          </Grid>
+          </Grid> */}
         </Grid>
         <SubscribeSection>
-          <Typography variant="h6" gutterBottom>
+          <Typography variant="h6" gutterBottom color="white">
             Stay Updated with MindStacks!
           </Typography>
-          <Typography variant="body2" paragraph>
+          <Typography variant="body2" paragraph color="white">
             Subscribe to our newsletter to get the latest updates, tips, and
             exclusive offers. Don’t miss out!
           </Typography>
@@ -115,6 +115,13 @@ function FooterSection() {
                     id="email"
                     name="email"
                     required
+                    sx={{
+                      color: "#fff",
+                      borderColor: "#4C5967",
+                      border: "none",
+                      boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.4)",
+                      background: "rgba(19, 27, 32, 0.4)",
+                    }}
                   />
                   {errors.email && (
                     <p className="text-red-500 text-sm">{errors.email}</p>
