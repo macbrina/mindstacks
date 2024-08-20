@@ -3,6 +3,7 @@
 import DashboardSkeleton from "@/app/_components/Backend/Dashboard/DashboardSkeleton";
 import MainDashboard from "@/app/_components/Backend/Dashboard/MainDashboard";
 import { useFlash } from "@/app/_context/FlashContext";
+import { auth } from "@/app/_firebase/config";
 import {
   calculateStreak,
   checkAndAddUserToFirestore,
@@ -14,7 +15,8 @@ import {
   getCardLimitBasedOnPlan,
   getQuantityBasedOnPlan,
 } from "@/app/_util/utilities";
-import { useUser } from "@clerk/nextjs";
+import { useAuth, useUser } from "@clerk/nextjs";
+import { signInWithCustomToken } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
@@ -26,6 +28,7 @@ const Dashboard = () => {
   const [streak, setStreak] = useState(0);
   const [dataLoading, setDataLoading] = useState(true);
   const [recentSets, setRecentSets] = useState([]);
+  const { getToken, userId } = useAuth();
   const [analytics, setAnalytics] = useState({
     totalCorrect: 0,
     totalIncorrect: 0,
@@ -126,37 +129,28 @@ const Dashboard = () => {
         averageScore,
       });
     };
-
-    // const getUpcomingReviews = () => {
-    //   const today = new Date();
-    //   const upcoming = [];
-
-    //   state.collectionList.forEach((set) => {
-    //     set.flashcards.forEach((flashcard) => {
-    //       const nextReviewDate = flashcard.nextReviewDate.toDate();
-    //        ("nextReview: ,", nextReviewDate);
-    //       if (nextReviewDate <= today) {
-    //         upcoming.push({
-    //           title: set.title,
-    //           question: flashcard.question,
-    //           quantity: set.quantity,
-    //           nextReviewDate,
-    //         });
-    //       }
-    //     });
-    //   });
-
-    //   upcoming.sort((a, b) => a.nextReviewDate - b.nextReviewDate);
-
-    //   const limitedUpcoming = upcoming.slice(0, 3);
-
-    //   setUpcomingReviews(limitedUpcoming);
-    // };
-
     if (state.collectionList.length > 0) {
       calculateAnalytics();
     }
   }, [state.collectionList, recentSets.length]);
+
+  useEffect(() => {
+    const signInToFirebase = async () => {
+      if (userId) {
+        const token = await getToken({ template: "integration_firebase" });
+        if (token) {
+          try {
+            await signInWithCustomToken(auth, token);
+          } catch (error) {
+            toast.error(error.message);
+            console.error("Error signing in to Firebase:", error);
+          }
+        }
+      }
+    };
+
+    signInToFirebase();
+  }, [userId, getToken]);
 
   if (!isLoaded || !isSignedIn || dataLoading) {
     return <DashboardSkeleton />;
