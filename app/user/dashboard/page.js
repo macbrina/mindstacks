@@ -3,26 +3,17 @@
 import DashboardSkeleton from "@/app/_components/Backend/Dashboard/DashboardSkeleton";
 import MainDashboard from "@/app/_components/Backend/Dashboard/MainDashboard";
 import { useFlash } from "@/app/_context/FlashContext";
-import { auth } from "@/app/_firebase/config";
 import {
   calculateStreak,
-  checkAndAddUserToFirestore,
   fetchUserRecentCollections,
   getUserDashboardData,
 } from "@/app/_lib/data-service";
-import {
-  generateUniqueId,
-  getCardLimitBasedOnPlan,
-  getQuantityBasedOnPlan,
-} from "@/app/_util/utilities";
-import { useAuth, useUser } from "@clerk/nextjs";
-import { signInWithCustomToken } from "firebase/auth";
+import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const Dashboard = () => {
   const { isLoaded, isSignedIn, user } = useUser();
-  const { dispatch } = useFlash();
   const [collectionSets, setCollectionSets] = useState(0);
   const [flashcardSets, setFlashcardSets] = useState(0);
   const [streak, setStreak] = useState(0);
@@ -35,10 +26,10 @@ const Dashboard = () => {
     averageScore: 0,
   });
   // const [upcomingReviews, setUpcomingReviews] = useState([]);
-  const { state, updateCollectionsList } = useFlash();
+  const { state, dispatch, updateCollectionsList } = useFlash();
 
   useEffect(() => {
-    if (user) {
+    if (user && state.userExist) {
       setDataLoading(true);
 
       const fetchUserDashboardData = async () => {
@@ -64,7 +55,7 @@ const Dashboard = () => {
 
       fetchUserDashboardData();
     }
-  }, [user, updateCollectionsList, recentSets.length]);
+  }, [user, updateCollectionsList, recentSets.length, state.userExist]);
 
   useEffect(() => {
     const calculateAnalytics = () => {

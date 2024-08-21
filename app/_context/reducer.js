@@ -44,7 +44,7 @@ export function flashReducer(state, action) {
     case "SET_USEREXIST_LOADING":
       return {
         ...state,
-        userExiSt: action.payload,
+        userExist: action.payload,
       };
     case "SET_COLLECTION_TOGGLE":
       return {

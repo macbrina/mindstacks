@@ -39,7 +39,7 @@ const initialState = {
   generatingFlashcards: false,
   flashCardLoading: false,
   collectionsLoading: false,
-  userExiSt: false,
+  userExist: false,
   subscriptionLoading: false,
   flashcardsList: [],
   subscriptionList: [],
@@ -176,7 +176,7 @@ function FlashProvider({ children }) {
 
   useEffect(() => {
     async function fetchUser() {
-      if (user && isLoaded && isEmptyObject(state.fbUser) && state.userExiSt) {
+      if (user && isLoaded && isEmptyObject(state.fbUser) && state.userExist) {
         try {
           const newUser = await getUserData(user);
           dispatch({ type: "SET_FBUSER", payload: newUser });
@@ -186,7 +186,7 @@ function FlashProvider({ children }) {
       }
     }
     fetchUser();
-  }, [user, isLoaded, dispatch, state.fbUser, state.userExiSt]);
+  }, [user, isLoaded, dispatch, state.fbUser, state.userExist]);
 
   return (
     <FlashContext.Provider
