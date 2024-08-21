@@ -30,10 +30,10 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (user && state.userExist) {
-      setDataLoading(true);
-
       const fetchUserDashboardData = async () => {
         try {
+          setDataLoading(true);
+
           const userDashboardData = await getUserDashboardData(
             user,
             updateCollectionsList
@@ -55,7 +55,7 @@ const Dashboard = () => {
 
       fetchUserDashboardData();
     }
-  }, [user, updateCollectionsList, recentSets.length, state.userExist]);
+  }, [user, updateCollectionsList, state.userExist]);
 
   useEffect(() => {
     const calculateAnalytics = () => {
@@ -87,7 +87,7 @@ const Dashboard = () => {
     }
   }, [state.collectionList, recentSets.length]);
 
-  if (!isLoaded || !isSignedIn || dataLoading) {
+  if (!isLoaded || !isSignedIn || dataLoading || !state.userExist) {
     return <DashboardSkeleton />;
   }
 
