@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import NextTopLoader from "nextjs-toploader";
 import { ToastContainer } from "react-toastify";
 import Analytics from "@/app/_components/Analytics";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -54,6 +55,7 @@ export default function RootLayout({ children }) {
       <html lang="en">
         <body className={inter.className}>
           <Analytics />
+          <VercelAnalytics />
           <NextTopLoader showSpinner={false} color="#42A5F5" />
           <ToastContainer />
           <FlashProvider>{children}</FlashProvider>
