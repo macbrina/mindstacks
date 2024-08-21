@@ -26,10 +26,10 @@ const Dashboard = () => {
     averageScore: 0,
   });
   // const [upcomingReviews, setUpcomingReviews] = useState([]);
-  const { state, dispatch, updateCollectionsList } = useFlash();
+  const { state, updateCollectionsList } = useFlash();
 
   useEffect(() => {
-    if (user && state.userExist) {
+    if (user && state.userExist && state.fbUserExist) {
       const fetchUserDashboardData = async () => {
         try {
           setDataLoading(true);
@@ -55,7 +55,7 @@ const Dashboard = () => {
 
       fetchUserDashboardData();
     }
-  }, [user, updateCollectionsList, state.userExist]);
+  }, [user, updateCollectionsList, state.userExist, state.fbUserExist]);
 
   useEffect(() => {
     const calculateAnalytics = () => {
@@ -87,7 +87,13 @@ const Dashboard = () => {
     }
   }, [state.collectionList, recentSets.length]);
 
-  if (!isLoaded || !isSignedIn || dataLoading || !state.userExist) {
+  if (
+    !isLoaded ||
+    !isSignedIn ||
+    dataLoading ||
+    !state.userExist ||
+    !state.fbUserExist
+  ) {
     return <DashboardSkeleton />;
   }
 

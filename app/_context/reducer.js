@@ -46,6 +46,11 @@ export function flashReducer(state, action) {
         ...state,
         userExist: action.payload,
       };
+    case "SET_FBUSEREXIST_LOADING":
+      return {
+        ...state,
+        fbUserExist: action.payload,
+      };
     case "SET_COLLECTION_TOGGLE":
       return {
         ...state,

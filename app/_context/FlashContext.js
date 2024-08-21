@@ -40,6 +40,7 @@ const initialState = {
   flashCardLoading: false,
   collectionsLoading: false,
   userExist: false,
+  fbUserExist: false,
   subscriptionLoading: false,
   flashcardsList: [],
   subscriptionList: [],
@@ -126,6 +127,7 @@ function FlashProvider({ children }) {
         if (token) {
           try {
             await signInWithCustomToken(auth, token);
+            dispatch({ type: "SET_USEREXIST_LOADING", payload: true });
           } catch (error) {
             toast.error(error.message);
             console.error("Error signing in to Firebase:", error);
@@ -139,7 +141,7 @@ function FlashProvider({ children }) {
 
   useEffect(() => {
     async function addUserToDb() {
-      if (user && isLoaded) {
+      if (user && isLoaded && state.userExist) {
         const userId = user.id;
         const userData = {
           userId: user.id,
@@ -165,18 +167,23 @@ function FlashProvider({ children }) {
 
         try {
           await checkAndAddUserToFirestore(userId, userData, subscriptionData);
-          dispatch({ type: "SET_USEREXIST_LOADING", payload: true });
+          dispatch({ type: "SET_FBUSEREXIST_LOADING", payload: true });
         } catch (error) {
           toast.error(error.message);
         }
       }
     }
     addUserToDb();
-  }, [user, isLoaded, dispatch]);
+  }, [user, isLoaded, dispatch, state.userExist]);
 
   useEffect(() => {
     async function fetchUser() {
-      if (user && isLoaded && isEmptyObject(state.fbUser) && state.userExist) {
+      if (
+        user &&
+        isLoaded &&
+        isEmptyObject(state.fbUser) &&
+        state.fbUserExist
+      ) {
         try {
           const newUser = await getUserData(user);
           dispatch({ type: "SET_FBUSER", payload: newUser });
@@ -186,7 +193,14 @@ function FlashProvider({ children }) {
       }
     }
     fetchUser();
-  }, [user, isLoaded, dispatch, state.fbUser, state.userExist]);
+  }, [
+    user,
+    isLoaded,
+    dispatch,
+    state.fbUser,
+    state.userExist,
+    state.fbUserExist,
+  ]);
 
   return (
     <FlashContext.Provider
